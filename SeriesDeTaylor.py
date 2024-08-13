@@ -10,27 +10,46 @@ funciones = [
     -0.15 * x**3,
     -0.5 * x **2,
     -0.25 * x,
-    1.2   
+    sp.S(1.2)   
 ]
 
 xi = 0
 h = 1
 
 #Calcular el valor de f(xi + h)
-def valorEsperado(xi, h, funciones):
+def calcularValorEsperado(xi, h, funciones):
+    x_valor = xi + h
+    sumatoria = sum(f.subs(x, x_valor) for f in funciones)
+    print(f"El total de f(x) es: {sumatoria}")
+    return sumatoria
+
+def evaluacionFuncion(xi, funciones):
+    x = xi
     sumatoria = 0
-    x = xi + h
     for i in range(len(funciones)):
-        prueba = str(funciones[i])
-        resultado = eval(prueba)
+        auxiliar = str(funciones[i])
+        resultado = eval(auxiliar)
         sumatoria += resultado
-    print(f"el total de f(x) es :{sumatoria}")
+    return sumatoria
 
-#Derivadas
-primeraDerivada = []
-for i in range(len(funciones)):
-    derivada = sp.diff(funciones[i],x)
-    #print(f"primera derivada: {derivada}")
-    primeraDerivada.append(derivada)
+def derivar(funcion):
+    Derivada = []
+    for i in range(len(funcion)):
+        derivadaAux = sp.diff(funcion[i],x)
+        #print(f"primera derivada: {derivada}")
+        Derivada.append(derivadaAux)
+    return Derivada
 
-valorEsperado(xi, h, funciones)
+def serieDeTaylor(xi, h, funciones):
+    
+    valorEsperado = calcularValorEsperado(xi, h, funciones)
+    #Declarar Variables
+    n = 0
+    valoresSerie = []
+    #Primera parte evaluar F(xi)
+    valoresSerie.append(evaluacionFuncion(xi, funciones))
+    while True:
+        sumatoriaSerie = valoresSerie[0]
+    
+
+serieDeTaylor(xi, h, funciones)
