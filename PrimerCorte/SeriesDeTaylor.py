@@ -1,6 +1,6 @@
 # Series de Taylor
 import sympy as sp
-
+import math
 # Definir la variable simbólica
 x = sp.symbols('x')
 
@@ -52,12 +52,13 @@ def serieDeTaylor(xi, h, funciones):
     sumatoriaSerie = valoresSerie[0]
     funcionesDerivadas.append(funciones)
     #print(funcionesDerivadas[0])
+    fact = 2
     while n < 4:
         funcionesDerivadas.append(derivar(funcionesDerivadas[n]))
         print(funcionesDerivadas)
-        valoresSerie.append(evaluacionFuncion(xi, funcionesDerivadas[n+1]))
+        valoresSerie.append(evaluacionFuncion(xi, funcionesDerivadas[n+1])/math.factorial(fact))
+        
         n=n+1
     print(valoresSerie)
-    print(funcionesDerivadas[-1])
 
 serieDeTaylor(xi, h, funciones)
