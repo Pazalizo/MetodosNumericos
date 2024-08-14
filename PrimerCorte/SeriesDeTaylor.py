@@ -49,16 +49,18 @@ def serieDeTaylor(xi, h, funciones):
     funcionesDerivadas = []
     #Primera parte evaluar F(xi)
     valoresSerie.append(evaluacionFuncion(xi, funciones))
-    sumatoriaSerie = valoresSerie[0]
     funcionesDerivadas.append(funciones)
-    #print(funcionesDerivadas[0])
-    fact = 2
+    fact = 1
     while n < 4:
         funcionesDerivadas.append(derivar(funcionesDerivadas[n]))
-        print(funcionesDerivadas)
-        valoresSerie.append(evaluacionFuncion(xi, funcionesDerivadas[n+1])/math.factorial(fact))
-        
+        valoresSerie.append(round(evaluacionFuncion(xi, funcionesDerivadas[n+1])/math.factorial(fact), 3))
+        fact = fact + 1
         n=n+1
-    print(valoresSerie)
+    valorCalculado = 0
+    for i in valoresSerie:
+        valorCalculado = valorCalculado + i
+    
+    valorCalculadoRedondeado = round(valorCalculado,3)
+    print(f"el valor aproximado calculado es: {valorCalculadoRedondeado}")
 
 serieDeTaylor(xi, h, funciones)
