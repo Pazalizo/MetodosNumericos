@@ -50,15 +50,14 @@ def serieDeTaylor(xi, h, funciones):
     #Primera parte evaluar F(xi)
     valoresSerie.append(evaluacionFuncion(xi, funciones))
     sumatoriaSerie = valoresSerie[0]
-    if (sumatoriaSerie == valorEsperado):
-        pass
-    else:
-        while True:
-            funcionesDerivadas = derivar(fun)
-            valoresSerie.append()
-    
-
-        
-    
+    funcionesDerivadas.append(funciones)
+    #print(funcionesDerivadas[0])
+    while n < 4:
+        funcionesDerivadas.append(derivar(funcionesDerivadas[n]))
+        print(funcionesDerivadas)
+        valoresSerie.append(evaluacionFuncion(xi, funcionesDerivadas[n+1]))
+        n=n+1
+    print(valoresSerie)
+    print(funcionesDerivadas[-1])
 
 serieDeTaylor(xi, h, funciones)
