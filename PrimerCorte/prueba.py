@@ -45,14 +45,16 @@ def serieDeTaylor(xi, h, funciones):
     funcionesDerivadas.append(funciones)
     
     fact = 1
-    while n < 6:
+    while n < 7:
         funcionesDerivadas.append(derivar(funcionesDerivadas[n]))
+        print(funcionesDerivadas[n+1])
         valor_evaluado = evaluacionFuncion(xi, funcionesDerivadas[n+1])
         valor_evaluado = valor_evaluado * h ** fact
         valoresSerie.append(valor_evaluado / sp.factorial(fact))
+        
         fact += 1
         n += 1
-    
+    print(f"{valoresSerie}")
     valorCalculado = sum(valoresSerie)
     valorCalculadoRedondeado = (valorCalculado)
     
