@@ -1,8 +1,10 @@
 import sympy as sp
 import math
 
+# Definir la variable simbólica
 variable = sp.symbols('x')
 
+#Definir Variables
 funciones = [
     -0.1 * variable**4,  
     -0.15 * variable**3,
@@ -14,6 +16,7 @@ funciones = [
 xi = 0
 h = 1
 
+#Calcular el valor de f(xi + h)
 def calcularValorEsperado(xi, h, funciones):
     x_valor = xi + h
     sumatoria = sum(f.subs(variable, x_valor) for f in funciones)
