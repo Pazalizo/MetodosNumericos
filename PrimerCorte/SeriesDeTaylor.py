@@ -1,15 +1,15 @@
-# Series de Taylor
 import sympy as sp
 import math
+
 # Definir la variable simbólica
-x = sp.symbols('x')
+variable = sp.symbols('x')
 
 #Definir Variables
 funciones = [
-    -0.1 * x**4,  
-    -0.15 * x**3,
-    -0.5 * x **2,
-    -0.25 * x,
+    -0.1 * variable**4,  
+    -0.15 * variable**3,
+    -0.5 * variable **2,
+    -0.25 * variable,
     sp.S(1.2)   
 ]
 
@@ -19,8 +19,8 @@ h = 1
 #Calcular el valor de f(xi + h)
 def calcularValorEsperado(xi, h, funciones):
     x_valor = xi + h
-    sumatoria = sum(f.subs(x, x_valor) for f in funciones)
-    print(f"El total de f(x) es: {sumatoria}")
+    sumatoria = sum(f.subs(variable, x_valor) for f in funciones)
+    print(f"El total de f(x) es: {sumatoria:.6f}")
     return sumatoria
 
 def evaluacionFuncion(xi, funciones):
@@ -35,28 +35,30 @@ def evaluacionFuncion(xi, funciones):
 def derivar(funcion):
     Derivada = []
     for i in range(len(funcion)):
-        derivadaAux = sp.diff(funcion[i],x)
-        #print(f"primera derivada: {derivada}")
+        derivadaAux = sp.diff(funcion[i],variable)
         Derivada.append(derivadaAux)
     return Derivada
 
 def serieDeTaylor(xi, h, funciones):
     
     valorEsperado = calcularValorEsperado(xi, h, funciones)
-    #Declarar Variables
+    
     n = 0
     valoresSerie = []
     funcionesDerivadas = []
-    #Primera parte evaluar F(xi)
+    
     valoresSerie.append(evaluacionFuncion(xi, funciones))
     funcionesDerivadas.append(funciones)
     fact = 1
+
     while n < 4:
         funcionesDerivadas.append(derivar(funcionesDerivadas[n]))
         valoresSerie.append(round(evaluacionFuncion(xi, funcionesDerivadas[n+1])/math.factorial(fact), 3))
         fact = fact + 1
         n=n+1
+
     valorCalculado = 0
+
     for i in valoresSerie:
         valorCalculado = valorCalculado + i
     
