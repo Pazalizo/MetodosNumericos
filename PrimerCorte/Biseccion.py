@@ -10,24 +10,20 @@ def biseccion(xl, xu, ea):
     xr = aproximacion(xl, xu)
     iterations = 0
 
-    # Lista para almacenar los datos de cada iteración
     data = []
 
-    # Variable para almacenar la aproximación anterior
     xr_old = xr
 
     while True:
         fxr = funcion(xr)
         fxl = funcion(xl)
         multiFunciones = fxr * fxl
-        
-        # Calcular el error relativo porcentual
+
         if iterations > 0:
             error_relativo = abs((xr - xr_old) / xr) * 100
         else:
             error_relativo = 'N/A'
-        
-        # Añadir los datos actuales a la lista
+
         data.append([iterations, xl, xu, xr, fxr, fxl, multiFunciones, error_relativo])
         
         if (multiFunciones < 0):
@@ -41,14 +37,11 @@ def biseccion(xl, xu, ea):
         xr = aproximacion(xl, xu)
         iterations += 1
 
-        # Verificar si el error relativo está por debajo del error absoluto esperado
         if error_relativo != 'N/A' and error_relativo < ea:
             break
 
-    # Añadir el resultado final a la lista
     data.append([iterations, xl, xu, xr, funcion(xr), funcion(xl), 'N/A', 'N/A'])
 
-    # Imprimir la tabla
     headers = ["Iteración", "xl", "xu", "xr", "f(xr)", "f(xl)", "Multiplicación", "Error Relativo (%)"]
     print(tabulate(data, headers=headers, tablefmt="grid"))
 
@@ -56,12 +49,11 @@ def biseccion(xl, xu, ea):
     print(f"Total de iteraciones: {iterations}")
 
 def main():
-    # Solicitar al usuario los parámetros
+
     xl = float(input("Ingrese el valor de xl: "))
     xu = float(input("Ingrese el valor de xu: "))
     ea = float(input("Ingrese el error absoluto esperado (ea): "))
 
-    # Llamar a la función de bisección
     biseccion(xl, xu, ea)
 
 if __name__ == "__main__":
