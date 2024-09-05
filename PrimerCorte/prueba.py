@@ -1,62 +1,70 @@
-import sympy as sp
+from tabulate import tabulate
+import numpy as np
 import math
 
-# Definir la variable simbólica
-x = sp.symbols('x')
+def funcion(m):
+    g = 9.8
+    v = 35
+    t = 9
+    c = 15
+    return (((g*m)/(c))*(1-np.exp(-1*((c/m)*t)))) - v
 
-# Definir funciones simbólicas
-funciones = [
-    sp.cos(x)
-]
+def funcion(x):
+    x_radianes = math.radians(x)  # Convertir x de grados a radianes
+    return math.sin(x_radianes) - x_radianes
 
-xi = math.pi/4
-h = math.pi/12
+def aproximacion(xl, xu):
+    return (xl + xu) / 2
 
-# Calcular el valor de f(xi + h)
-def calcularValorEsperado(xi, h, funciones):
-    x_valor = xi + h
-    sumatoria = sum(f.subs(x, x_valor) for f in funciones)
-    print(f"El total de f(x) es: {sumatoria}")
-    return sumatoria
+def biseccion(xl, xu, ea):
+    xr = aproximacion(xl, xu)
+    iterations = 0
 
-def evaluacionFuncion(xi, funciones):
-    sumatoria = 0
-    for funcion in funciones:
-        sumatoria += funcion.subs(x, xi)
-    return sumatoria
+    data = []
 
-def derivar(funcion):
-    Derivada = []
-    for f in funcion:
-        derivadaAux = sp.diff(f, x)
-        Derivada.append(derivadaAux)
-    return Derivada
+    xr_old = xr
 
-def serieDeTaylor(xi, h, funciones):
-    valorEsperado = calcularValorEsperado(xi, h, funciones)
-    
-    # Declarar Variables
-    n = 0
-    valoresSerie = []
-    funcionesDerivadas = []
-    
-    # Primera parte: evaluar F(xi)
-    valoresSerie.append(evaluacionFuncion(xi, funciones))
-    funcionesDerivadas.append(funciones)
-    
-    fact = 1
-    while n < 6:
-        funcionesDerivadas.append(derivar(funcionesDerivadas[n]))
-        valor_evaluado = evaluacionFuncion(xi, funcionesDerivadas[n+1])
-        valor_evaluado = valor_evaluado * h ** fact
-        valoresSerie.append(valor_evaluado / sp.factorial(fact))
-        fact += 1
-        n += 1
-    
-    valorCalculado = sum(valoresSerie)
-    valorCalculadoRedondeado = (valorCalculado)
-    
-    print(f"El valor aproximado calculado es: {valorCalculadoRedondeado}")
+    while True:
+        fxr = funcion(xr)
+        fxl = funcion(xl)
+        multiFunciones = fxr * fxl
 
-# Llamar a la función con las funciones deseadas
-serieDeTaylor(xi, h, funciones)
+        if iterations > 0:
+            error_relativo = abs((xr - xr_old) / xr) * 100
+        else:
+            error_relativo = 'N/A'
+
+        data.append([iterations, xl, xu, xr, fxr, fxl, multiFunciones, error_relativo])
+        
+        if (multiFunciones < 0):
+            xu = xr
+        elif (multiFunciones > 0):
+            xl = xr
+        else:
+            break
+        
+        xr_old = xr
+        xr = aproximacion(xl, xu)
+        iterations += 1
+
+        if error_relativo != 'N/A' and error_relativo < ea:
+            break
+
+    data.append([iterations, xl, xu, xr, funcion(xr), funcion(xl), 'N/A', 'N/A'])
+
+    headers = ["Iteración", "xl", "xu", "xr", "f(xr)", "f(xl)", "Multiplicación", "Error Relativo (%)"]
+    print(tabulate(data, headers=headers, tablefmt="grid"))
+
+    print(f"La raíz es {xr}")
+    print(f"Total de iteraciones: {iterations}")
+
+def main():
+
+    xl = float(input("Ingrese el valor de xl: "))
+    xu = float(input("Ingrese el valor de xu: "))
+    ea = float(input("Ingrese el error absoluto esperado (ea): "))
+
+    biseccion(xl, xu, ea)
+
+if __name__ == "__main__":
+    main()
