@@ -109,9 +109,6 @@ def biseccion(xl, xu, ea):
         
         xr_old = xr
         xr = aproximacion(xl, xu)
-        
-        
-
 
     #data.append([iterations, xl, xu, xr, funcion(xr), funcion(xl), 'N/A', 'N/A'])
 
@@ -123,9 +120,9 @@ def biseccion(xl, xu, ea):
 
 def main():
 
-    xl = float(input("Ingrese el valor de xl: "))
-    xu = float(input("Ingrese el valor de xu: "))
-    ea = float(input("Ingrese el error absoluto esperado (ea): "))
+    xl = 0.5
+    xu = 1
+    ea = 1
 
     biseccion(xl, xu, ea)
     
