@@ -1,24 +1,29 @@
-from tabulate import tabulate
 import numpy as np
-import matplotlib.pyplot as plt 
+import matplotlib.pyplot as plt
+from tabulate import tabulate
 
-def funcion(x):
-    return np.sin(x) - x**2
+# Definir la función f(m)
+def f(m):
+    g = 9.8
+    v = 35
+    t = 9
+    c = 15
+    return (((g * m) / c) * (1 - np.exp(-1 * (c / m) * t))) - v
 
+# Aproximación de xr
 def aproximacion(xl, xu):
     return (xl + xu) / 2
 
+# Implementación del método de bisección
 def biseccion(xl, xu, ea):
     xr = aproximacion(xl, xu)
     iterations = 0
-
     data = []
-
     xr_old = xr
 
     while True:
-        fxr = funcion(xr)
-        fxl = funcion(xl)
+        fxr = f(xr)
+        fxl = f(xl)
         multiFunciones = fxr * fxl
 
         if iterations > 0:
@@ -33,35 +38,55 @@ def biseccion(xl, xu, ea):
         if error_relativo != 'N/A' and error_relativo < ea:
             break
         
-        if (multiFunciones < 0):
+        if multiFunciones < 0:
             xu = xr
-        elif (multiFunciones > 0):
+        elif multiFunciones > 0:
             xl = xr
         else:
             break
         
         xr_old = xr
         xr = aproximacion(xl, xu)
-        
-        
 
-
-    #data.append([iterations, xl, xu, xr, funcion(xr), funcion(xl), 'N/A', 'N/A'])
-
+    # Mostrar tabla de iteraciones
     headers = ["Iteración", "xl", "xu", "xr", "f(xr)", "f(xl)", "Multiplicación", "Error Relativo (%)"]
     print(tabulate(data, headers=headers, tablefmt="grid"))
 
     print(f"La raíz es {xr}")
     print(f"Total de iteraciones: {iterations}")
 
-def main():
+    return xr
 
-    xl = float(input("Ingrese el valor de xl: "))
-    xu = float(input("Ingrese el valor de xu: "))
-    ea = float(input("Ingrese el error absoluto esperado (ea): "))
+# Gráfica de la función
+def graficar_funcion():
+    # Definir el intervalo de m para graficar
+    m_values = np.linspace(40, 100, 500)
+    f_values = f(m_values)
 
-    biseccion(xl, xu, ea)
-    
+    plt.figure(figsize=(10, 6))
+    plt.plot(m_values, f_values, label='f(m)')
+    plt.axhline(0, color='red', lw=1)  # Línea en y = 0
+    plt.axvline(0, color='red', lw=1)  # Línea en x = 0
+    plt.xlabel('m (masa)')
+    plt.ylabel('f(m)')
+    plt.title('Gráfico de f(m) para el método de bisección')
+    plt.grid(True)
+    plt.legend()
 
-if __name__ == "__main__":
-    main()
+# Parámetros iniciales para la bisección
+xl = 59
+xu = 60
+tolerancia = 0.1  # 0.1%
+
+# Graficar la función
+graficar_funcion()
+
+# Aplicar el método de bisección
+raiz = biseccion(xl, xu, tolerancia)
+
+# Marcar la raíz en el gráfico
+plt.plot(raiz, f(raiz), 'bo', label=f'Raíz: m = {raiz:.4f}')  # Punto azul en la raíz
+plt.legend()
+
+# Mostrar el gráfico final
+plt.show()
