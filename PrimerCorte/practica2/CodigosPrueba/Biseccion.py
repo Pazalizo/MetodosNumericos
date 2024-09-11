@@ -1,12 +1,12 @@
 from tabulate import tabulate
 import numpy as np
 
-def funcion(m):
+def funcion(x):
     g = 9.8
     v = 35
     t = 9
     c = 15
-    return (((g*m)/(c))*(1-np.exp(-1*((c/m)*t)))) - v
+    return -0.5*(x**2) + 2.5 * x + 4.5
 
 def aproximacion(xl, xu):
     return (xl + xu) / 2
