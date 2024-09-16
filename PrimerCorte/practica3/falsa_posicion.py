@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def funcion(x):
-    return -0.5 * x**2 + 2.5 * x + 4.5
+    return np.exp(3*x) - 4
 
 def aproximacion(xl, xu):
     fxl = funcion(xl)

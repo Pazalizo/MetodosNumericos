@@ -7,11 +7,11 @@ x = sp.symbols('x')
 
 # Definir funciones simbólicas
 funciones = [
-    sp.sin(x)
+    25*x**3 - 6*x**2 + 7*x - 88
 ]
 
-xi = 0
-h = math.pi / 30
+xi = 1
+h = 1
 
 # Calcular el valor de f(xi + h)
 def calcularValorEsperado(xi, h, funciones):
@@ -53,7 +53,7 @@ def serieDeTaylor(xi, h, funciones):
     datos_tabla.append([n, valorCalculado, "N/A", funciones])
 
     # Bucle para calcular y mostrar cada iteración
-    while n < 5:  # Cambiado para hacer 4 iteraciones
+    while n < 3:  # Cambiado para hacer 4 iteraciones
         funcionesDerivadas.append(derivar(funcionesDerivadas[n]))
         valor_evaluado = evaluacionFuncion(xi, funcionesDerivadas[n+1])
         valor_evaluado = valor_evaluado * h ** fact
