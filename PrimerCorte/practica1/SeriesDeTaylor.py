@@ -1,16 +1,18 @@
 import sympy as sp
 import math
+import numpy as np
 
 # Definir la variable simbólica
 variable = sp.symbols('x')
 
 #Definir Variables
 funciones = [
-    -0.1 * variable**4,  
-    -0.15 * variable**3,
-    -0.5 * variable **2,
-    -0.25 * variable,
-    sp.S(1.2)   
+    # -0.1 * variable**4,  
+    # -0.15 * variable**3,
+    # -0.5 * variable **2,
+    # -0.25 * variable,
+    # sp.S(1.2)   
+    np.exp()
 ]
 
 xi = 0

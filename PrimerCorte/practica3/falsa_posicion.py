@@ -65,7 +65,7 @@ def punto_falso(xl, xu, ea):
     y = funcion(x)
     
     plt.figure(figsize=(10, 6))
-    plt.plot(x, y, label='f(x) = -0.5 * x^2 + 2.5 * x + 4.5')
+    plt.plot(x, y, label='f(x)')
     plt.axhline(0, color='black',linewidth=0.5)
     plt.axvline(0, color='black',linewidth=0.5)
     

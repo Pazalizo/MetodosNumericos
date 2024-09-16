@@ -6,7 +6,7 @@ def funcion(x):
     v = 35
     t = 9
     c = 15
-    return -0.5*(x**2) + 2.5 * x + 4.5
+    return x**10 - 1
 
 def aproximacion(xl, xu):
     return (xl + xu) / 2
@@ -46,9 +46,6 @@ def biseccion(xl, xu, ea):
         xr_old = xr
         xr = aproximacion(xl, xu)
         
-        
-
-
     #data.append([iterations, xl, xu, xr, funcion(xr), funcion(xl), 'N/A', 'N/A'])
 
     headers = ["Iteración", "xl", "xu", "xr", "f(xr)", "f(xl)", "Multiplicación", "Error Relativo (%)"]
