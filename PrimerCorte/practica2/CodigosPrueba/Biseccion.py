@@ -2,11 +2,7 @@ from tabulate import tabulate
 import numpy as np
 
 def funcion(x):
-    g = 9.8
-    v = 35
-    t = 9
-    c = 15
-    return x**10 - 1
+    return np.exp(3*x) - 4
 
 def aproximacion(xl, xu):
     return (xl + xu) / 2

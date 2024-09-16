@@ -1,97 +1,46 @@
-from tabulate import tabulate
-import numpy as np
-import matplotlib.pyplot as plt
+import math
 
-def funcion(x):
-    """Define la función que se usará en el método."""
-    return -0.5 * x**2 + 2.5 * x + 4.5
+# Valor exacto de cos(pi/4)
+x = math.pi / 4
+cos_exacto = math.cos(x)
 
-def aproximacion(xl, xu):
-    """Calcula la aproximación de la raíz utilizando el método de la falsa posición."""
-    fxl = funcion(xl)
-    fxu = funcion(xu)
-    return xu - ((fxu * (xl - xu)) / (fxl - fxu))
+# Inicializamos variables
+cos_approx = 0  # Almacenará la aproximación acumulada de la serie
+error_aprox = None
+n = 0  # Contador de términos
+criterio_error = 0.01  # El criterio de error aproximado, se detendrá cuando sea menor que este
 
-def punto_falso(xl, xu, ea):
-    """Implementa el método de la falsa posición para encontrar la raíz de la función."""
-    xr = aproximacion(xl, xu)
-    iterations = 0
+# Listas para almacenar resultados de cada iteración
+resultados = []
 
-    data = []
-    xr_values = []  # Lista para almacenar los valores de xr
-    fxr_values = [] # Lista para almacenar los valores de f(xr)
-    xl_values = []
-    xu_values = []
-
-    xr_old = xr
-
-    while True:
-        fxr = funcion(xr)
-        fxl = funcion(xl)
-        fxu = funcion(xu)
-        multiFunciones = fxr * fxl
-
-        error_relativo = abs((xr - xr_old) / xr) * 100 if iterations > 0 else 'N/A'
-
-        data.append([iterations, xl, xu, xr, fxr, fxl, multiFunciones, error_relativo])
-        xr_values.append(xr)  # Guardar el valor de xr
-        fxr_values.append(fxr) # Guardar el valor de f(xr)
-        xl_values.append(xl)
-        xu_values.append(xu)
-
-        iterations += 1
-        
-        if error_relativo != 'N/A' and error_relativo < ea:
-            break
-        
-        if multiFunciones < 0:
-            xu = xr
-        elif multiFunciones > 0:
-            xl = xr
-        else:
-            break
-        
-        xr_old = xr
-        xr = aproximacion(xl, xu)
-
-    headers = ["Iteración", "xl", "xu", "xr", "f(xr)", "f(xl)", "Multiplicación", "Error Relativo (%)"]
-    print(tabulate(data, headers=headers, tablefmt="grid"))
-
-    print(f"\nLa raíz aproximada es {xr}")
-    print(f"Total de iteraciones: {iterations}")
-
-    # Graficar la función y las iteraciones
-    graficar_funcion(xl_values, xu_values, xr_values)
-
-def graficar_funcion(xl_values, xu_values, xr_values):
-    """Genera una gráfica de la función y las aproximaciones de xr."""
-    x = np.linspace(min(xl_values + xu_values) - 1, max(xl_values + xu_values) + 1, 400)
-    y = funcion(x)
+# Bucle para calcular la serie de Maclaurin término por término
+while True:
+    # Calcular el término n-ésimo de la serie de Maclaurin
+    termino = ((-1)**n * x**(2*n)) / math.factorial(2*n)
     
-    plt.figure(figsize=(10, 6))
-    plt.plot(x, y, label='f(x)')
-    plt.axhline(0, color='black', linewidth=0.5)
-    plt.axvline(0, color='black', linewidth=0.5)
+    # Sumar el término a la aproximación actual
+    cos_approx_anterior = cos_approx
+    cos_approx += termino
     
-    # Graficar las líneas secantes y los puntos xr
-    for i in range(len(xr_values)):
-        xl, xu, xr = xl_values[i], xu_values[i], xr_values[i]
-        plt.plot([xl, xu], [funcion(xl), funcion(xu)], 'r--', alpha=0.5)
-        plt.scatter(xr, 0, color='blue', zorder=5, label=f'xr Iter {i}' if i == 0 else "")
+    # Calcular el error relativo exacto
+    error_relativo_exacto = abs((cos_exacto - cos_approx) / cos_exacto) * 100
     
-    plt.title('Método de la Falsa Posición')
-    plt.xlabel('x')
-    plt.ylabel('f(x)')
-    plt.legend()
-    plt.grid(True)
-    plt.show()
+    # Calcular el error aproximado (comparando con la iteración anterior)
+    if n > 0:
+        error_aprox = abs((cos_approx - cos_approx_anterior) / cos_approx) * 100
+    
+    # Almacenar los resultados de esta iteración
+    resultados.append([n, cos_approx, error_relativo_exacto, error_aprox if n > 0 else "N/A"])
+    
+    # Verificar si el criterio de error aproximado se cumple
+    if error_aprox is not None and error_aprox < criterio_error:
+        break
+    
+    n += 1
 
-def main():
-    xl = 6  # Valor de xl fijo
-    xu = 7  # Valor de xu fijo
-    ea = 0  # Error relativo fijo
-
-    punto_falso(xl, xu, ea)
-
-if __name__ == "__main__":
-    main()
+# Mostrar los resultados
+print(f"Valor exacto de cos(pi/4) = {cos_exacto}")
+print(f"Resultados de la aproximación usando la serie de Maclaurin:")
+print(f"{'Iteración':<10} {'Aproximación':<20} {'Error Relativo Exacto (%)':<30} {'Error Aproximado (%)':<30}")
+for res in resultados:
+    print(f"{res[0]:<10} {res[1]:<20} {res[2]:<30} {res[3]}")
