@@ -1,9 +1,10 @@
 from tabulate import tabulate
 import numpy as np
 import matplotlib.pyplot as plt
+import math
 
 def funcion(x):
-    return np.exp(3*x) - 4
+    return math.log(x**2) - 0.7
 
 def aproximacion(xl, xu):
     fxl = funcion(xl)
