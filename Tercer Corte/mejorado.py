@@ -7,11 +7,12 @@ def calcular_derivadas(funcion):
     x = sp.symbols('x')
     f = sp.sympify(funcion)
     df = sp.diff(f, x)
-    return f, df
+    d2f = sp.diff(df, x)
+    return f, df, d2f
 
 def newthon_raphson_mejorado(funcion, X0, error):
     x = sp.symbols('x')
-    f, df = calcular_derivadas(funcion)
+    f, df, d2f = calcular_derivadas(funcion)
 
     X0 = float(X0)
     Eminimo = float(error)
@@ -26,9 +27,10 @@ def newthon_raphson_mejorado(funcion, X0, error):
         iteracion += 1
         fev = f.subs(x, X0)
         dfev = df.subs(x, X0)
+        d2fev = d2f.subs(x, X0)
         
         Xante = X0
-        X0 = X0 - (fev/dfev)
+        X0 = X0 - ((fev * dfev) / ((dfev)**2 - (fev * d2fev)))
         er = abs(((X0 - Xante) / X0) * 100)
         
         # Almacena la iteración, el valor de X0 y el error relativo en la lista
@@ -69,6 +71,7 @@ def newthon_raphson_mejorado(funcion, X0, error):
 
     plt.show()
     return X0
+
 
 def main():
     funcion = input("Ingresa una función de x: ")
