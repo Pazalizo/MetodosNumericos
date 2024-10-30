@@ -9,7 +9,7 @@ def calcular_derivadas(funcion):
     df = sp.diff(f, x)
     return f, df
 
-def newthon_raphson_mejorado(funcion, X0, error):
+def newthon_raphson(funcion, X0, error):
     x = sp.symbols('x')
     f, df = calcular_derivadas(funcion)
 
@@ -57,7 +57,7 @@ def newthon_raphson_mejorado(funcion, X0, error):
     
     plt.xlabel('X')
     plt.ylabel('f(X)')
-    plt.title('Aproximación de Newton-Raphson mejorado')
+    plt.title('Aproximación de Newton-Raphson')
     plt.legend()
     plt.grid(True)
 
@@ -75,7 +75,7 @@ def main():
     X0 = input("Digite el valor inicial de x: ")
     error = input("Error mínimo: ")
     
-    newthon_raphson_mejorado(funcion, X0, error)
+    newthon_raphson(funcion, X0, error)
 
 if __name__ == "__main__":
     main()
