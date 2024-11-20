@@ -1,9 +1,23 @@
 from tabulate import tabulate
-import numpy as np
 import math
+import cmath
 
-def funcion(x):
-    return (1 + 0.2)*math.sqrt(1-(0.2/1.2)*(2**2)) - math.sin(x)
+def funcion(R_val):
+    L = 5  # Henry
+    C = 1e-4  # Faradios
+    q0 = 1  # Carga inicial
+    t = 0.05  # Tiempo
+
+    omega_0 = 1 / math.sqrt(L * C)
+    alpha = R_val / (2 * L)
+    discriminant = omega_0**2 - alpha**2
+
+    omega_d = cmath.sqrt(discriminant)
+    q_t = q0 * cmath.exp(-alpha * t) * cmath.cos(omega_d * t)
+
+    # Tomamos la parte real de q_t para compararla
+    q_t_real = q_t.real
+    return q_t_real - 0.01
 
 def aproximacion(xl, xu):
     return (xl + xu) / 2
@@ -32,7 +46,7 @@ def biseccion(xl, xu, ea):
         
         if error_relativo != 'N/A' and error_relativo < ea:
             break
-        
+
         if (multiFunciones < 0):
             xu = xr
         elif (multiFunciones > 0):
@@ -43,20 +57,17 @@ def biseccion(xl, xu, ea):
         xr_old = xr
         xr = aproximacion(xl, xu)
         
-    #data.append([iterations, xl, xu, xr, funcion(xr), funcion(xl), 'N/A', 'N/A'])
-
     headers = ["Iteración", "xl", "xu", "xr", "f(xr)", "f(xl)", "Multiplicación", "Error Relativo (%)"]
     print(tabulate(data, headers=headers, tablefmt="grid"))
 
     print(f"La raíz es {xr}")
     print(f"Total de iteraciones: {iterations}")
-    print(f"El angulo tiene que estar entre: {xl} y {xu}, para un error relativo de {ea}")	
+    print(f"El valor de R tiene que estar entre: {xl} y {xu}, para un error relativo de {ea}")	
 
 def main():
-
-    xl = float(input("Ingrese el valor de xl: "))
-    xu = float(input("Ingrese el valor de xu: "))
-    ea = float(input("Ingrese el error absoluto esperado (ea): "))
+    xl = 1       # Límite inferior de R
+    xu = 1000    # Límite superior de R
+    ea = 0.01    # Error absoluto esperado
 
     biseccion(xl, xu, ea)
 

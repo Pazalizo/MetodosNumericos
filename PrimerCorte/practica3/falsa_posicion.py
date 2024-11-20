@@ -1,9 +1,10 @@
 from tabulate import tabulate
 import numpy as np
 import matplotlib.pyplot as plt
+import math
 
 def funcion(x):
-    return np.exp(3*x) - 4
+    return math.log(x**2) - 0.7
 
 def aproximacion(xl, xu):
     fxl = funcion(xl)
@@ -65,7 +66,7 @@ def punto_falso(xl, xu, ea):
     y = funcion(x)
     
     plt.figure(figsize=(10, 6))
-    plt.plot(x, y, label='f(x) = -0.5 * x^2 + 2.5 * x + 4.5')
+    plt.plot(x, y, label='f(x)')
     plt.axhline(0, color='black',linewidth=0.5)
     plt.axvline(0, color='black',linewidth=0.5)
     

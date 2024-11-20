@@ -50,13 +50,13 @@ def biseccion(xl, xu, ea):
 
     print(f"La raíz es {xr}")
     print(f"Total de iteraciones: {iterations}")
-    print(f"El angulo tiene que estar entre: {xl} y {xu}, para un error relativo de {ea}")	
+    print(f"El angulo tiene que estar entre: {xl} y {xu}, para un error relativo de {error_relativo}")	
 
 def main():
 
-    xl = float(input("Ingrese el valor de xl: "))
-    xu = float(input("Ingrese el valor de xu: "))
-    ea = float(input("Ingrese el error absoluto esperado (ea): "))
+    xl = 40
+    xu = 50
+    ea = 0.01
 
     biseccion(xl, xu, ea)
 
